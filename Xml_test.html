@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Table</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<style>
+	 body {
+		background-color: #FFFDD0;
+	} 
+	.table-content{
+		margin-top: 100px;
+		display: flex;
+        justify-content: center;
+        align-items: center;
+	}
+    #studentTable > thead > tr > th,
+    tbody > tr > td 
+    {
+        text-align: center !important;
+    }
+	</style>
+</head>
+<body>
+    <section class="table container">
+    <div class="table-content">
+        <table id="studentTable">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Student Last Name</th>
+                    <th>Student First Name</th>
+                    <th>Age</th>
+                    <th>Course</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+    </div>
+    </section>
+    <script>
+        const xmlData = `
+        <students>
+    <student>
+        <studentID>1001</studentID>
+        <lastName>Garcia</lastName>
+        <firstName>Juan</firstName>
+        <age>21</age>
+        <course>Computer Science</course>
+        <email>juan.garcia@example.com</email>
+    </student>
+    <student>
+        <studentID>1002</studentID>
+        <lastName>Santos</lastName>
+        <firstName>Maria</firstName>
+        <age>20</age>
+        <course>Information Technology</course>
+        <email>maria.santos@example.com</email>
+    </student>
+    <student>
+        <studentID>1003</studentID>
+        <lastName>Cruz</lastName>
+        <firstName>Jose</firstName>
+        <age>22</age>
+        <course>Engineering</course>
+        <email>jose.cruz@example.com</email>
+    </student>
+    <student>
+        <studentID>1004</studentID>
+        <lastName>Reyes</lastName>
+        <firstName>Ana</firstName>
+        <age>21</age>
+        <course>Business Administration</course>
+        <email>ana.reyes@example.com</email>
+    </student>
+    <student>
+        <studentID>1005</studentID>
+        <lastName>Mendoza</lastName>
+        <firstName>Ramon</firstName>
+        <age>23</age>
+        <course>Accounting</course>
+        <email>ramon.mendoza@example.com</email>
+    </student>
+    <student>
+        <studentID>1006</studentID>
+        <lastName>Torres</lastName>
+        <firstName>Liza</firstName>
+        <age>19</age>
+        <course>Nursing</course>
+        <email>liza.torres@example.com</email>
+    </student>
+    <student>
+        <studentID>1007</studentID>
+        <lastName>Villanueva</lastName>
+        <firstName>Mark</firstName>
+        <age>20</age>
+        <course>Architecture</course>
+        <email>mark.villanueva@example.com</email>
+    </student>
+    <student>
+        <studentID>1008</studentID>
+        <lastName>Flores</lastName>
+        <firstName>Susan</firstName>
+        <age>22</age>
+        <course>Psychology</course>
+        <email>susan.flores@example.com</email>
+    </student>
+    <student>
+        <studentID>1009</studentID>
+        <lastName>Rodriguez</lastName>
+        <firstName>Eric</firstName>
+        <age>21</age>
+        <course>Law</course>
+        <email>eric.rodriguez@example.com</email>
+    </student>
+    <student>
+        <studentID>1010</studentID>
+        <lastName>Gomez</lastName>
+        <firstName>Clarissa</firstName>
+        <age>20</age>
+        <course>Education</course>
+        <email>clarissa.gomez@example.com</email>
+    </student>
+    <student>
+        <studentID>1011</studentID>
+        <lastName>Diaz</lastName>
+        <firstName>Albert</firstName>
+        <age>23</age>
+        <course>History</course>
+        <email>albert.diaz@example.com</email>
+    </student>
+    <student>
+        <studentID>1012</studentID>
+        <lastName>Bautista</lastName>
+        <firstName>Michelle</firstName>
+        <age>19</age>
+        <course>Biology</course>
+        <email>michelle.bautista@example.com</email>
+    </student>
+    <student>
+        <studentID>1013</studentID>
+        <lastName>Navarro</lastName>
+        <firstName>Henry</firstName>
+        <age>21</age>
+        <course>Chemistry</course>
+        <email>henry.navarro@example.com</email>
+    </student>
+    <student>
+        <studentID>1014</studentID>
+        <lastName>Perez</lastName>
+        <firstName>Emily</firstName>
+        <age>20</age>
+        <course>Mathematics</course>
+        <email>emily.perez@example.com</email>
+    </student>
+    <student>
+        <studentID>1015</studentID>
+        <lastName>Martinez</lastName>
+        <firstName>Carlos</firstName>
+        <age>22</age>
+        <course>Physics</course>
+        <email>carlos.martinez@example.com</email>
+    </student>
+</students>
+        `;
+
+      
+    function parseXMLData(xmlString) {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+
+        
+        const students = xmlDoc.getElementsByTagName("student");
+
+        const tableBody = document.getElementById("studentTable").getElementsByTagName("tbody")[0];
+
+        for (let i = 0; i < students.length; i++) {
+            const id = students[i].getElementsByTagName("studentID")[0].textContent;
+            const lastName = students[i].getElementsByTagName("lastName")[0].textContent;
+            const firstName = students[i].getElementsByTagName("firstName")[0].textContent;
+            const age = students[i].getElementsByTagName("age")[0].textContent;
+            const course = students[i].getElementsByTagName("course")[0].textContent;
+            const email = students[i].getElementsByTagName("email")[0].textContent;
+
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${id}</td>
+                <td>${lastName}</td>
+                <td>${firstName}</td>
+                <td>${age}</td>
+                <td>${course}</td>
+                <td>${email}</td>
+            `;
+
+            tableBody.appendChild(row);
+        }
+    }
+    parseXMLData(xmlData);
+</script>
+</body>
+</html>
